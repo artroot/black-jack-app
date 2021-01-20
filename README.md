@@ -6,10 +6,42 @@ Simple multiplayer blackjack card game
 npm install
 ```
 
+## Configure 
+
+Configure server
+
+Open and edit (optional) [config.server.ts](src/config.server.ts)
+
+```typescript
+export default {
+    host: '127.0.0.1',
+    port: 4000
+}
+```
+
+Configure game
+
+Open and edit (optional) [config.game.ts](src/config.game.ts)
+
+```typescript
+import { TokenValue } from "./entities/token";
+
+export default {
+    maxSeats: 5, // Maximum number of players 
+    minBet: [TokenValue.$1, TokenValue.$1], // Minimal bet
+    amountDeck: 5 // Amount of decks in the shuffling machine
+}
+```
+
 ## Start
+
+Run script
+
 ```sh
 npm start
 ```
+
+Open [http://127.0.0.1:4000](http://127.0.0.1:4000) for open test view client.
 
 ## Web Socket Actions
 
