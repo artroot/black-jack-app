@@ -1,4 +1,4 @@
-# black-jack-app
+# black-jack-app ♠️
 Simple multiplayer blackjack card game
 
 ## Install
@@ -41,7 +41,9 @@ Run script
 npm start
 ```
 
-Open [http://127.0.0.1:4000](http://127.0.0.1:4000) for open test view client.
+Open [http://127.0.0.1:4000](http://127.0.0.1:4000) in your browser for test game.
+
+---
 
 ## Web Socket Actions
 
