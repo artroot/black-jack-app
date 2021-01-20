@@ -1,0 +1,394 @@
+#timer {
+    position: absolute;
+    top: calc(50% - 300px);
+    left: 50%;
+    z-index: 9999;
+    background: bisque;
+    padding: 10px;
+    min-width: 40px;
+    min-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+#interfce {
+    height: 200px;
+    position: absolute;
+    top: calc(50% - 100px);
+    width: 300px;
+    left: calc(50% - 100px);
+    z-index: 9999;
+}
+
+#interfce>* {
+    padding: 10px;
+    border: 0;
+    border-radius: 20px;
+    background: darkgreen;
+    border: 2px solid rgba(255, 255, 255, 0.68);
+    color: #ffffff;
+    font-size: 16px;
+}
+
+cards {
+    display: flex;
+    margin-left: 35px;
+}
+
+#dealer card {
+    margin-left: -30px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+card.hidden {
+    background: rgb(129, 125, 121);
+    display: inline-block;
+    margin: -10px;
+    border: 1px solid black;
+    width: 20px;
+    height: 10px;
+}
+
+card {
+    display: block;
+    margin: 5px;
+    box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.24);
+    width: 45px;
+    text-align: center;
+    background: rgb(244, 242, 240);
+    border-radius: 4px;
+    position: relative;
+    margin-top: -40px;
+}
+
+card.hearts,
+card.diams {
+    color: red;
+}
+
+card>div {
+    height: 30px;
+    width: 100%;
+}
+
+card>div:last-child {
+    transform: scale(-1);
+}
+
+card>div>div {
+    text-align: left;
+    display: block;
+    padding-left: 3px;
+}
+
+card.K:after,
+card.Q:after,
+card.J:after {
+    position: absolute;
+    top: 25%;
+    width: 100%;
+    left: 0;
+    text-shadow: 0 0 25px blue;
+}
+
+card.K:after {
+    content: '💩';
+}
+
+card.Q:after {
+    content: '🐥';
+}
+
+card.J:after {
+    content: '🤖';
+}
+
+name {
+    display: block;
+}
+
+seat {
+    display: block;
+}
+
+seat.active {
+    border: 1px solid;
+}
+
+.chip {
+    display: flex;
+    width: 38px;
+    height: 38px;
+    font-size: 10px;
+    border-radius: 38px;
+    background-color: darkblue;
+    color: white;
+    transform: scaleY(0.8);
+    margin-left: -0px;
+    margin-top: -44px;
+}
+
+chip_1000:first-of-type,
+chip_500:first-of-type,
+chip_100:first-of-type,
+chip_25:first-of-type,
+chip_5:first-of-type,
+chip_1:first-of-type,
+chip:first-of-type {
+    margin-left: 0px;
+    margin-top: 20px;
+}
+
+.chip:after {
+    content: '50C';
+    position: absolute;
+    padding: 7px 0;
+    width: 30px;
+    /* height: 19px; */
+    text-align: center;
+    color: blue;
+    font-weight: bolder;
+    font-family: serif;
+    font-size: 12px;
+    border-radius: 30px;
+
+    background-color: rgb(64, 83, 22);
+    border: 4px dotted rgb(221, 252, 138);
+    color: aliceblue;
+}
+
+
+chip_1000.chip:after {
+    content: '1000$';
+    background-color: rgb(247, 241, 74);
+    border: 4px dotted rgb(0, 62, 207);
+    color: black;
+}
+
+chip_500.chip:after {
+    content: '500$';
+    background-color: rgb(134, 17, 0);
+    border: 4px dotted rgb(255, 215, 97);
+}
+
+chip_100.chip:after {
+    content: '100$';
+    background-color: rgb(0, 0, 0);
+    border: 4px dotted rgb(210, 53, 42);
+    color: wheat;
+}
+
+chip_25.chip:after {
+    content: '25$';
+    background-color: rgb(163, 227, 137);
+    border: 4px dotted rgb(26, 12, 52);
+    color: rgb(26, 12, 52);
+}
+
+chip_5.chip:after {
+    content: '5$';
+    background-color: rgb(210, 53, 42);
+    border: 4px dotted rgb(0, 0, 0);
+}
+
+chip_1.chip:after {
+    content: '1$';
+    background-color: rgb(231, 231, 231);
+    border: 4px dotted rgb(209, 124, 0);
+    color: black;
+}
+
+#shufflingMachine {
+    width: 100%;
+    display: flex;
+}
+
+#shufflingMachine>* {
+    width: 50%;
+}
+
+body {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(31, 31, 31);
+    z-index: 999;
+}
+
+.table {
+    width: 1000px;
+    height: 80%;
+    margin: auto;
+    background: green;
+    border-bottom-left-radius: 40%;
+    border-bottom-right-radius: 40%;
+    position: relative;
+}
+
+.table:after {
+    width: 80%;
+    height: 200px;
+    margin-top: 30%;
+    margin-left: 10%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    position: absolute;
+    border-block-end: 25px solid rgba(255, 255, 255, 0.4);
+    content: '';
+}
+
+.table-seats {
+    width: 100%;
+    height: 70%;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+}
+
+.seat {
+    display: inline-flex;
+    width: calc(100% / 5);
+    /* border: 1px solid; */
+    height: 100%;
+    position: relative;
+}
+
+.seat:first-child,
+.seat:last-child {
+    margin-top: -150px;
+}
+
+.seat:nth-child(2),
+.seat:nth-child(4) {
+    margin-top: -50px;
+}
+
+.bet-place:before {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border: 4px dotted rgba(245, 245, 245, 0.603);
+    border-radius: 50%;
+    margin: auto;
+    left: calc(50% - 35px);
+    bottom: 60px;
+}
+
+.bet-place {
+    width: 50%;
+    height: 80px;
+    margin: auto;
+    margin-bottom: 70px;
+    display: block;
+}
+
+.card-place {
+    width: 1%;
+    height: 20%;
+    bottom: 150px;
+    display: block;
+    position: absolute;
+    margin-left: 35%;
+}
+
+.table-dealer {
+    width: 100%;
+    height: 30%;
+    position: absolute;
+}
+
+.dealer-cards {
+    width: auto;
+    max-width: 200px;
+    height: 100%;
+    margin: auto;
+    display: block;
+}
+
+.player {
+    position: absolute;
+    background: rgba(55, 55, 55, 0.95);
+    width: 70%;
+    height: auto;
+    bottom: -50px;
+    left: 15%;
+    border-radius: 10px;
+    color: white;
+    padding: 5%;
+    box-shadow: 0 0 84px 0 black;
+    z-index: 999;
+}
+
+.player.active {
+    box-shadow: 0 0 84px 0 blue;
+    background: rgba(21, 21, 163, 0.86);
+}
+
+.name:before {
+    content: "Name:";
+}
+
+.deposit:before {
+    content: "Dep:";
+}
+
+.card-sum {
+    position: absolute;
+    padding: 10px;
+    background: burlywood;
+    color: darkblue;
+    bottom: 150px;
+    right: 0;
+    border-radius: 50%;
+}
+
+.main-form {
+    position: fixed;
+    top: calc(50vh - 100px);
+    left: calc(50vw - 150px);
+    width: 300px;
+    height: 200px;
+    background: beige;
+    border-radius: 10px;
+    box-shadow: 0 0 100px -8px black;
+    display: flex;
+    z-index: 99999;
+}
+
+.main-form>* {
+    display: block;
+    margin: auto;
+}
+
+.hide {
+    display: none;
+}
+
+.state {
+    position: absolute;
+    top: -30px;
+    width: 100%;
+    left: 0;
+    text-align: center;
+}
+
+.bet-place>div {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
+
+div.tokens {
+    position: absolute;
+    width: 100%;
+}
+
+div.tokens>div {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}

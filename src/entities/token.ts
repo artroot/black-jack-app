@@ -21,14 +21,10 @@ export const tokenValues: Array<TokenValue> = [
 
 export class Token {
     
-    private _value: TokenValue;
+    public value: TokenValue;
 
     constructor(value: TokenValue) {
-        this._value = value;
-    }
-
-    public get value(): TokenValue {
-        return this._value;
+        this.value = value;
     }
 
 }

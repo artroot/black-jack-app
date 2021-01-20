@@ -24,24 +24,17 @@ export enum CardPip {
 
 export class Card {
 
-    private _suit: CardSuit;
+    public suit: CardSuit;
 
-    private _pip: CardPip;
+    public pip: CardPip;
 
     constructor (suit: CardSuit, pip: CardPip) {
         
-        this._suit = suit;
+        this.suit = suit;
         
-        this._pip = pip;
+        this.pip = pip;
     
-    }
-
-    get suit(): CardSuit {
-        return this._suit;
-    }
-
-    get pip(): CardPip {
-        return this._pip;
+        return Object.freeze(this);
     }
 
     get value(): number {

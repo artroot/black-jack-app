@@ -1,13 +1,13 @@
-import http from 'http';
+import * as http from 'http';
+
+import config from './config.server';
 
 import app from './app';
 
 import console from './logger';
 
-const port = 4000;
-
-const host = '127.0.0.1';
-
-http.createServer(app.handle).listen({host, port}, () => {
-    console.info(`Server listen on ${host}:${port}`);
+const server = http.createServer(app.handleHTTP).listen(config, () => {
+    console.info(`Server listen on http://${config.host}:${config.port}`);
 });
+
+require('socket.io')(server).on('connection', socket =>  app.handleWS(socket));

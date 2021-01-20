@@ -49,8 +49,12 @@ export class Player {
         return this;
     }
 
+    get id(): number {
+        return this._id;
+    }
+
     get hand(): Array<Card> {
-        return Object.create(this._hand);
+        return this._hand;
     }
 
     get deposit(): number {
@@ -59,6 +63,10 @@ export class Player {
 
     get role(): Role {
         return this._role;
+    }
+
+    get socket(): any {
+        return this._socket;
     }
 
     get total(): number {

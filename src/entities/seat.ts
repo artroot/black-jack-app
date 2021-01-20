@@ -27,8 +27,11 @@ export class Seat {
     }
 
     down (player: Player): void {
+
         if (this._player !== undefined) throw new Error('Seat already taken');
+
         this._player = player;
+
     }
 
     up (): void {
@@ -36,15 +39,45 @@ export class Seat {
     }
 
     public betting(bet: TokenValue): void {
+
+        const values = tokenValues.sort((a, b) => b - a);
+
         while(bet > 0) {
-            for(const value of tokenValues) {
+            for(const value of values) {
                 if (bet >= value) {
+
                     this._bet.push(this.player.getToken(value));
+
                     bet -= value;
+
                     break;
                 }
             }
         }
+    }
+
+    public get deposit(): Array<Token> {
+
+        let deposit: number = this.player.deposit;
+
+        const tokens: Array<Token> = [];
+
+        const values = tokenValues.sort((a, b) => b - a);
+
+        while(deposit > 0) {
+            for(const value of values) {
+                if (deposit >= value) {
+
+                    tokens.push(new Token(value));
+
+                    deposit -= value;
+
+                    break;
+                }
+            }
+        }
+
+        return tokens;
     }
 
     set state(state: SeatStates) {
@@ -54,16 +87,18 @@ export class Seat {
         switch(this._state) {
             case SeatStates.BlackJack:
 
-                let totalTokenValues: number = this._bet
-                .reduce((total: number, token: Token) => total + token.value, 0);
+                let totalTokenValues: number = this._bet.reduce((total: number, token: Token) => total + token.value, 0);
 
                 totalTokenValues *= 1.5;
 
                 while(totalTokenValues > 0) {
                     for(const value of tokenValues) {
                         if (totalTokenValues >= value) {
+
                             this._bet.push(new Token(value));
+
                             totalTokenValues -= value;
+
                             break;
                         }
                     }
@@ -114,6 +149,10 @@ export class DealerSeat extends Seat {
 
     down (dealer: Dealer) {
         this._player = dealer;
+    }
+
+    get player(): Dealer {
+        return this._player;
     }
 
 }

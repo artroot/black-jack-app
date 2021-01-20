@@ -8,15 +8,15 @@ export class ShufflingMachine {
 
     private played: Array<Card> = [];
 
-    private deckCount: number = 1;
+    private deckAmount: number = 1;
 
     private deck: Deck;
 
     constructor (deckCount?: number) {
 
-        if (deckCount) this.deckCount = deckCount;
+        if (deckCount) this.deckAmount = deckCount;
 
-        for (let i = 1; i <= this.deckCount; i++) this.fillShoe(new Deck());
+        for (let i = 1; i <= this.deckAmount; i++) this.fillShoe(new Deck());
 
         for (let i = 0; i <= 3; i++) this.shuffle();
     }
@@ -32,7 +32,7 @@ export class ShufflingMachine {
     }
 
     private check(): void {
-        if (this.shoeLength <= (this.deckCount * this.deck.length) / 3) this.shuffle();
+        if (this.shoeLength <= (this.deckAmount * this.deck.length) / 3) this.shuffle();
     }
 
     get shoeLength(): number {
