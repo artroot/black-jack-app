@@ -21,9 +21,10 @@ export enum Actions {
 }
 
 enum PlayerActions {
-    offer = 'offer',
+    deal = 'deal',
     bet = 'bet',
     hit = 'hit',
+    enough = 'enough',
     stand = 'stand'
 }
 
@@ -216,21 +217,22 @@ export default class Game {
     private bet(seat: Seat) {
         return new Promise(resolve => {
             let timer = this.tenSecTimer(() => resolve(0));
-            seat.player.socket.emit('bet', '?', res => {
+            seat.player.socket.emit(PlayerActions.bet, '?', res => {
 
                 clearTimeout(timer);
 
-                if (!res) {
-                    resolve(true);
-                } else {
+                if (typeof res === 'number' && res > 0) {
                     const bet = seat.bet.reduce((sum, cur) => sum + Number(cur.value), 0) * Number(res);
                     try {
                         seat.betting(Number(bet));
                     } catch (err) {
-
+                        console.error(err.message);
                     }
                     resolve(true);
+                } else {
+                    resolve(true);
                 }
+
             });
         });
     }
@@ -254,9 +256,8 @@ export default class Game {
             }
 
             let timer = this.tenSecTimer(() => resolve(false));
-            seat.player.socket.emit(PlayerActions.offer, '?', res => {
+            seat.player.socket.emit(PlayerActions.deal, '?', res => {
                 if (res === PlayerActions.hit) {
-                    //console.log("yes");
                     seat.player.takeCard(this.SM.card);
                     clearTimeout(timer);
                     this.broadcast(seat.id);
@@ -384,11 +385,11 @@ export default class Game {
         }
 
         this.seats.forEach(seat => {
-            seat.player.socket.emit('game', table);
+            seat.player.socket.emit('updates', table);
         });
 
         this.watchersQueue.forEach(watcher => {
-            watcher.socket.emit('game', table);
+            watcher.socket.emit('updates', table);
         });
     }
 

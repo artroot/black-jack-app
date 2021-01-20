@@ -1,8 +1,12 @@
 const socket = io(window.location.origin);
 
+let playerId;
+
 const nameEl = document.getElementById('name');
 document.getElementById('downBtn').addEventListener('click', () => {
-    socket.emit('down', nameEl.value);
+    socket.emit('down', nameEl.value, player => {
+        playerId = player.id;
+    });
     nameEl.parentNode.classList.add('hide');
 });
 
@@ -15,8 +19,6 @@ let dealerTotal = dealer.querySelector('.card-sum');
 let seats = document.getElementById('seats');
 let timerH1 = document.getElementById('timer');
 
-let playerId;
-
 let interface = document.getElementById('interfce');
 
 socket.on('bet', async (q, callback) => {
@@ -28,7 +30,7 @@ socket.on('bet', async (q, callback) => {
 
     interface.innerHTML = '';
 
-    [2, 4, 10, 25, 30, 0].forEach(bet => {
+    [2, 4, 10, 25, 30, 'enough'].forEach(bet => {
         const btnBet = document.createElement('button');
         btnBet.innerText = bet > 0 ? `Bet X${bet}` : 'Enough';
         btnBet.addEventListener('click', () => {
@@ -46,7 +48,7 @@ socket.on('bet', async (q, callback) => {
 
 });
 
-socket.on('offer', async (q, callback) => {
+socket.on('deal', async (q, callback) => {
     clearInterval(this.interval);
     clearTimeout(this.timer);
     let i = 10;
@@ -69,7 +71,7 @@ socket.on('offer', async (q, callback) => {
     const btnEnough = document.createElement('button');
     btnEnough.innerText = 'Enough';
     btnEnough.addEventListener('click', () => {
-        callback('stand');
+        callback('enough');
         btnMore.remove();
         btnEnough.remove();
 
@@ -219,16 +221,16 @@ function fillSeats(seat) {
 
 }
 
-socket.on('game', game => {
+socket.on('updates', updates => {
     dealerCards.innerHTML = '';
-    dealerTotal.innerHTML = game.dealer.total;
-    game.dealer.hand.forEach(card => fillCards(card, dealerCards));
+    dealerTotal.innerHTML = updates.dealer.total;
+    updates.dealer.hand.forEach(card => fillCards(card, dealerCards));
     seats.innerHTML = '';
-    game.seats.forEach(seat => fillSeats(seat));
+    updates.seats.forEach(seat => fillSeats(seat));
 
-    if (game.active) document.getElementById(`seat${game.active}`).querySelector('.player').classList.add('active');
+    if (updates.active) document.getElementById(`seat${updates.active}`).querySelector('.player').classList.add('active');
 
-    game.freeSeats.forEach(seat => fillSeats(seat));
+    updates.freeSeats.forEach(seat => fillSeats(seat));
 
 });
 
@@ -238,6 +240,6 @@ socket.on('errors', err => {
     });
 });
 
-socket.on('player', id => {
+/* socket.on('player', id => {
     playerId = id;
-});
+}); */
