@@ -4,7 +4,7 @@ import { Dealer } from "./entities/dealer";
 
 import { Player } from "./entities/player";
 
-import { Seat, DealerSeat, SeatStates } from "./entities/seat";
+import { Seat, DealerSeat, SeatStatuses } from "./entities/seat";
 
 import { ShufflingMachine } from "./shufflingMachine";
 
@@ -36,7 +36,7 @@ interface ShufflingMachineOD {
 interface DealerOD {
     hand: Array<Card>;
     total: number;
-    state: SeatStates;
+    status: SeatStatuses;
 }
 
 interface PlayerOD {
@@ -52,7 +52,7 @@ interface SeatOD {
     player: PlayerOD | null;
     bet: Array<Token>;
     deposit: Array<Token>;
-    state: SeatStates;
+    status: SeatStatuses;
 }
 
 
@@ -84,7 +84,7 @@ export default class Game {
 
     private dealerSeat: DealerSeat;
 
-    private state: Actions = Actions.waitingPlayers;
+    private status: Actions = Actions.waitingPlayers;
 
     private SM: ShufflingMachine;
 
@@ -120,27 +120,27 @@ export default class Game {
 
     async start() {
 
-        if (this.state != Actions.waitingPlayers) return;
+        if (this.status != Actions.waitingPlayers) return;
 
         await this.cleanup();
 
         await this.checkFreeSeat();
 
-        if (this.state === Actions.waitingPlayers && this.seats.length > 0) {
+        if (this.status === Actions.waitingPlayers && this.seats.length > 0) {
 
-            this.state = Actions.betting;
+            this.status = Actions.betting;
 
             await this.betting();
 
-            this.state = Actions.deal;
+            this.status = Actions.deal;
 
             await this.deal();
 
-            this.state = Actions.play;
+            this.status = Actions.play;
 
             await this.play();
 
-            this.state = Actions.dealersPlay;
+            this.status = Actions.dealersPlay;
 
             this.dealerSeat.player.openHiddenCard();
 
@@ -156,7 +156,7 @@ export default class Game {
 
             await (new Promise(resolve => this.fiveSecTimer(() => resolve(true))));
 
-            this.state = Actions.waitingPlayers;
+            this.status = Actions.waitingPlayers;
 
             return await this.start();
 
@@ -170,7 +170,7 @@ export default class Game {
 
             this.seats.forEach(seat => {
 
-                seat.state = SeatStates.Unknown;
+                seat.status = SeatStatuses.Unknown;
 
                 if (!seat.bet.length && seat.player.deposit < this.minBet.reduce((sum, value) => sum + value, 0)) {
                     seat.up();
@@ -247,11 +247,11 @@ export default class Game {
 
             if (seat.player.total == 21) {
                 resolve(false);
-                if (this.dealerSeat.player.total < 10) seat.state = SeatStates.BlackJack;
+                if (this.dealerSeat.player.total < 10) seat.status = SeatStatuses.BlackJack;
                 return;
             } else if (seat.player.total > 21) {
                 resolve(false);
-                seat.state = SeatStates.Looser;
+                seat.status = SeatStatuses.Looser;
                 return;
             }
 
@@ -312,18 +312,18 @@ export default class Game {
     }
 
     private payments () {
-        this.seats.filter(seat => seat.state === SeatStates.Unknown).forEach(seat => {
+        this.seats.filter(seat => seat.status === SeatStatuses.Unknown).forEach(seat => {
             if (seat.player.total === 21) {
-                if (this.dealerSeat.player.total === 21) seat.state = SeatStates.Draw;
-                else seat.state = SeatStates.BlackJack;
+                if (this.dealerSeat.player.total === 21) seat.status = SeatStatuses.Draw;
+                else seat.status = SeatStatuses.BlackJack;
                 return;
             } else if (this.dealerSeat.player.total > 21 || seat.player.total > this.dealerSeat.player.total) {
-                seat.state = SeatStates.Winner;
+                seat.status = SeatStatuses.Winner;
                 return;
             } else if (this.dealerSeat.player.total < 21 && seat.player.total === this.dealerSeat.player.total) {
-                seat.state = SeatStates.Draw;
+                seat.status = SeatStatuses.Draw;
             } else {
-                seat.state = SeatStates.Looser;
+                seat.status = SeatStatuses.Looser;
             }
         });
     }
@@ -364,7 +364,7 @@ export default class Game {
                 } : null,
                 bet: seat.bet.sort((a, b) => seat.bet.filter(i => i.value === b.value).length - seat.bet.filter(i => i.value === a.value).length),
                 deposit: seat.deposit.sort((a, b) => seat.bet.filter(i => i.value === b.value).length - seat.bet.filter(i => i.value === a.value).length),
-                state: seat.state
+                status: seat.status
             }
             seats.push(_seat);
         });
@@ -377,7 +377,7 @@ export default class Game {
             dealer: {
                 hand: this.dealerSeat.player.hand,
                 total: this.dealerSeat.player.total,
-                state: this.dealerSeat.state
+                status: this.dealerSeat.status
             },
             seats,
             freeSeats: this.emptySeats,

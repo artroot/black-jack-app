@@ -368,7 +368,7 @@ body {
     display: none;
 }
 
-.state {
+.status {
     position: absolute;
     top: -30px;
     width: 100%;

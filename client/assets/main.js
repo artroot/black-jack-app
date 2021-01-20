@@ -118,9 +118,9 @@ function fillSeats(seat) {
         nameEl.className = 'name';
         seatPlayerEl.appendChild(nameEl);
 
-        const stateEl = document.createElement('div');
-        stateEl.className = 'state';
-        seatPlayerEl.appendChild(stateEl);
+        const statusEl = document.createElement('div');
+        statusEl.className = 'status';
+        seatPlayerEl.appendChild(statusEl);
 
         const tokensEl = document.createElement('div');
         tokensEl.className = 'tokens';
@@ -148,21 +148,21 @@ function fillSeats(seat) {
         if (seat.player) seatEl.querySelector('.card-sum').innerText = seat.player.total;
 
         if (seat.player) {
-            switch (seat.state) {
+            switch (seat.status) {
                 case 0:
-                    seatEl.querySelector('.state').innerText = '';
+                    seatEl.querySelector('.status').innerText = '';
                     break;
                 case 1:
-                    seatEl.querySelector('.state').innerText = 'Loose';
+                    seatEl.querySelector('.status').innerText = 'Loose';
                     break;
                 case 2:
-                    seatEl.querySelector('.state').innerText = 'Win';
+                    seatEl.querySelector('.status').innerText = 'Win';
                     break;
                 case 3:
-                    seatEl.querySelector('.state').innerText = 'BlackJack';
+                    seatEl.querySelector('.status').innerText = 'BlackJack';
                     break;
                 case 4:
-                    seatEl.querySelector('.state').innerText = 'Draw';
+                    seatEl.querySelector('.status').innerText = 'Draw';
                     break;
             }
         }

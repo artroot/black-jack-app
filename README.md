@@ -46,6 +46,26 @@ socket.on('bet', async (question, callback) => {
 });
 ```
 
+Also client must subscribe to `updates` for receive updated game data
+
+```javascript
+socket.on('updates', updates => {
+
+    updates.shufflingMachine.shoe; // Shoe length
+    updates.shufflingMachine.played; // Played length
+
+    updates.dealer.hand; // Array of dealer cards
+    updates.dealer.total; // Dealer total hand sum
+    updates.dealer.status; // Dealer status
+
+    updates.seats, // Array of seats
+    updates.freeSeats, // Array of free seats
+    updates.active // Player id whose turn it is now
+
+});
+```
+
+
 ### Deal
 Server ask players to deal
 

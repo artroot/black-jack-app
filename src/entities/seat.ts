@@ -4,7 +4,7 @@ import { TokenValue, Token, tokenValues } from "./token";
 
 import { Dealer } from "./dealer";
 
-export enum SeatStates {
+export enum SeatStatuses {
     Unknown,
     Looser,
     Winner,
@@ -20,7 +20,7 @@ export class Seat {
 
     protected _player: Player = undefined;
 
-    protected _state: SeatStates = SeatStates.Unknown;
+    protected _status: SeatStatuses = SeatStatuses.Unknown;
 
     constructor() {
         this._id = this.generateId();
@@ -80,12 +80,12 @@ export class Seat {
         return tokens;
     }
 
-    set state(state: SeatStates) {
+    set status(status: SeatStatuses) {
 
-        this._state = state;
+        this._status = status;
 
-        switch(this._state) {
-            case SeatStates.BlackJack:
+        switch(this._status) {
+            case SeatStatuses.BlackJack:
 
                 let totalTokenValues: number = this._bet.reduce((total: number, token: Token) => total + token.value, 0);
 
@@ -105,13 +105,13 @@ export class Seat {
                 }
 
             break;
-            case SeatStates.Winner:
+            case SeatStatuses.Winner:
                 this._bet.forEach(bet => this._bet.push(bet));
             break;
-            case SeatStates.Draw:
+            case SeatStatuses.Draw:
                 while(this.bet.length) this.player.setToken(this._bet.pop());
             break;
-            case SeatStates.Looser:
+            case SeatStatuses.Looser:
                 this._bet = [];
             break;
         }
@@ -121,8 +121,8 @@ export class Seat {
         return this._id;
     }
 
-    get state(): SeatStates {
-        return this._state;
+    get status(): SeatStatuses {
+        return this._status;
     }
 
     get player(): Player {
