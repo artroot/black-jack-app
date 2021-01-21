@@ -48,7 +48,7 @@ socket.on('bet', async (q, callback) => {
 
 });
 
-socket.on('deal', async (q, callback) => {
+socket.on('play', async (q, callback) => {
     clearInterval(this.interval);
     clearTimeout(this.timer);
     let i = 10;
@@ -57,7 +57,7 @@ socket.on('deal', async (q, callback) => {
 
     interface.innerHTML = '';
     const btnMore = document.createElement('button');
-    btnMore.innerText = 'More';
+    btnMore.innerText = 'Hit';
     btnMore.addEventListener('click', () => {
         callback('hit');
         btnMore.remove();
@@ -69,9 +69,9 @@ socket.on('deal', async (q, callback) => {
     });
 
     const btnEnough = document.createElement('button');
-    btnEnough.innerText = 'Enough';
+    btnEnough.innerText = 'Stand';
     btnEnough.addEventListener('click', () => {
-        callback('enough');
+        callback('stand');
         btnMore.remove();
         btnEnough.remove();
 

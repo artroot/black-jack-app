@@ -22,6 +22,7 @@ export enum Actions {
 
 enum PlayerActions {
     deal = 'deal',
+    play = 'play',
     bet = 'bet',
     hit = 'hit',
     enough = 'enough',
@@ -256,7 +257,7 @@ export default class Game {
             }
 
             let timer = this.tenSecTimer(() => resolve(false));
-            seat.player.socket.emit(PlayerActions.deal, '?', res => {
+            seat.player.socket.emit(PlayerActions.play, '?', res => {
                 if (res === PlayerActions.hit) {
                     seat.player.takeCard(this.SM.card);
                     clearTimeout(timer);

@@ -68,7 +68,7 @@ socket.emit('down', 'Player Name', player => {
 ```
 
 ### Bet
-Server ask players to do betting
+Server asks player to bet
 
 ![betting](readme/betting.svg)
 
@@ -99,19 +99,20 @@ socket.on('updates', updates => {
 });
 ```
 
+### Play
+Server ask players to play
 
-### Deal
-Server ask players to deal
+![deal](readme/play.svg)
 
-![deal](readme/deal.svg)
-
-Client must subscribe to `deal`
+Client must subscribe to `play`
 
 ```javascript
-socket.on('deal', async (question, callback) => {
-    callback(ansver); // ansver must be 'enough' or 'hit`
+socket.on('play', async (question, callback) => {
+    callback(ansver); // ansver must be 'stand' or 'hit`
 });
 ```
+
+The player must decide whether to "stand" (not ask for another card) or "hit" (ask for another card in an attempt to get closer to a count of 21, or even hit 21 exactly).
 
 ### Leave
 Client can leave game anytime 
