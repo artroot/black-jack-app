@@ -49,7 +49,7 @@ class App {
 
         this.game.broadcast();
 
-        socket.on('down', (name, callback) => {
+        socket.on('join', (name, callback) => {
             player.name = name;
             this.game.join(player);
             console.info(`Player ${player.id} join game as <${player.name}>`);

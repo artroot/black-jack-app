@@ -48,7 +48,9 @@ Open [http://127.0.0.1:4000](http://127.0.0.1:4000) in your browser for test gam
 ## Web Socket Actions
 
 ### Connect
-Client `connect` to server
+Client `connect` to server.
+
+Then the server generate new player.
 
 ![connect](readme/connect.svg)
 
@@ -57,22 +59,29 @@ const socket = io('http://127.0.0.1:4000'); // Set server host
 ```
 
 ### Down
-Client sending `down` to server with player name and receive the player id
 
-![down](readme/down.svg)
+Join game action (sit at the table)
+
+Client sending `join` to server with player name and receive the player id.
+
+![join](readme/join.svg)
 
 ```javascript
-socket.emit('down', 'Player Name', player => {
+socket.emit('join', 'Player Name', player => {
     const playerId = player.id;
 });
 ```
+
+Then the server push player to the game queue.
 
 ### Bet
 Server asks player to bet
 
 ![betting](readme/betting.svg)
 
-Client must subscribe to `bet`
+Client must subscribe to `bet`.
+
+Client (player) have 10 seconds for answer (callback). Otherwise the server go to next player or next game step.
 
 ```javascript
 socket.on('bet', async (question, callback) => {
@@ -99,12 +108,14 @@ socket.on('updates', updates => {
 });
 ```
 
-### Play
-Server ask players to play
+### Playing loop
+Server asks player to play
 
-![deal](readme/play.svg)
+![play](readme/play.svg)
 
-Client must subscribe to `play`
+Client must subscribe to `play`.
+
+Client (player) have 10 seconds for answer (callback). Otherwise the server go to next player or next game step.
 
 ```javascript
 socket.on('play', async (question, callback) => {

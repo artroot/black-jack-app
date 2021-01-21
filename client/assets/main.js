@@ -3,8 +3,8 @@ const socket = io(window.location.origin);
 let playerId;
 
 const nameEl = document.getElementById('name');
-document.getElementById('downBtn').addEventListener('click', () => {
-    socket.emit('down', nameEl.value, player => {
+document.getElementById('joinBtn').addEventListener('click', () => {
+    socket.emit('join', nameEl.value, player => {
         playerId = player.id;
     });
     nameEl.parentNode.classList.add('hide');
